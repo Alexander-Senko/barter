@@ -54,8 +54,6 @@ GEM
     mime-types (1.16)
     multi_json (1.0.3)
     polyglot (0.3.2)
-    prototype-rails (0.3.1)
-      rails (~> 3.1.0.beta1)
     rack (1.3.2)
     rack-cache (1.0.2)
       rack (>= 0.4)
@@ -107,9 +105,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  coffee-rails (~> 3.1.0.rc)
-  prototype-rails
-  rails (= 3.1.0.rc5)
-  sass-rails (~> 3.1.0.rc)
+  coffee-rails
+  rails (~> 3.1.0.rc)
+  sass-rails
   sqlite3
   uglifier
