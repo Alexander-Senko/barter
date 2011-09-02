@@ -6,7 +6,9 @@ Barter::Application.routes.draw do
 	devise_for :staff,     :class_name => 'User::Staff'
 	devise_for :customers, :class_name => 'User::Customer'
 
-	resources :users
+	resources :users, :articles, :messages, :lists do
+		resources :articles, :messages, :lists
+	end
 
 	# Sample of regular route:
 	#   match 'products/:id' => 'catalog#view'

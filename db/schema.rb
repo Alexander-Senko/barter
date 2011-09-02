@@ -24,6 +24,20 @@ ActiveRecord::Schema.define(:version => 20110601124022) do
 
   add_index "memberships", ["member_id", "member_type", "team_id", "team_type", "role_id"], :name => "index_memberships_on_member_and_team_and_role", :unique => true
 
+  create_table "nodes", :force => true do |t|
+    t.string   "type"
+    t.string   "name"
+    t.string   "summary"
+    t.text     "content"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "nodes", ["starts_at", "ends_at"], :name => "index_nodes_on_starts_at_and_ends_at"
+  add_index "nodes", ["type"], :name => "index_nodes_on_type"
+
   create_table "roles", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"

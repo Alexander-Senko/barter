@@ -22,6 +22,12 @@ for (team, member), roles in {
 	],
 	[ nil, User::Corporate ] => %w[
 	],
+	Article => %w[
+	],
+	Message => %w[
+	],
+	List => %w[
+	],
 } do
 	if roles.any? then
 		for role in roles do
