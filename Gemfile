@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '~> 3.1.0.rc'
+gem 'rails', '~> 3.1.0'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -14,6 +14,16 @@ group :assets do
 	gem 'coffee-rails'
 	gem 'uglifier'
 end
+
+# Auth
+gem 'devise'
+gem 'cancan'
+
+# Controllers
+gem 'inherited_resources'
+gem 'has_scope'
+
+gem 'kaminari' # for pagination
 
 # gem 'prototype-rails'
 
