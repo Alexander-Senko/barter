@@ -2,6 +2,12 @@ Barter::Application.routes.draw do
 	# The priority is based upon order of creation:
 	# first created -> highest priority.
 
+	devise_for :users
+	devise_for :staff,     :class_name => 'User::Staff'
+	devise_for :customers, :class_name => 'User::Customer'
+
+	resources :users
+
 	# Sample of regular route:
 	#   match 'products/:id' => 'catalog#view'
 	# Keep in mind you can assign values other than :controller and :action
