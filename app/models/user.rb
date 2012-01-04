@@ -14,15 +14,16 @@ class User < ActiveRecord::Base
 
 	if Relation.table_exists? then # needed for DB migrations & schema initializing
 		for target in Relation.where(:source_id => nil).map(&:target_type).compact.uniq do
-			(lambda do |association_name, target_class| # WTF?! remove lambda
-				has_many association_name, :through => :relations, :source => :target, :source_type => target_class.name
+			has_many association_name = target.downcase.pluralize.to_sym,
+				:through => :relations, :source => :target, :source_type => const_get(target).name
 
+			lambda { |association_name|
 				define_method "#{association_name}_with_roles" do |*roles|
-					send(association_name).joins(:relations => :role).where(
-						:relations => { :role => { :name => roles.flatten.map(&:to_s) } }
+					send(association_name).where(
+						:relations => { :role_id => Role.find_all_by_name(roles.flatten.map(&:to_s)).map(&:id) }
 					)
 				end
-			end)[target.downcase.pluralize.to_sym, const_get(target)]
+			}[association_name]
 		end
 	end
 end
