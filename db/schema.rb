@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,19 +13,7 @@
 
 ActiveRecord::Schema.define(:version => 20110601124022) do
 
-  create_table "memberships", :force => true do |t|
-    t.integer  "member_id"
-    t.string   "member_type", :default => "User"
-    t.integer  "team_id"
-    t.string   "team_type"
-    t.integer  "role_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "memberships", ["member_id", "member_type", "team_id", "team_type", "role_id"], :name => "index_memberships_on_member_and_team_and_role", :unique => true
-
-  create_table "nodes", :force => true do |t|
+  create_table "entities", :force => true do |t|
     t.string   "type"
     t.string   "name"
     t.string   "summary"
@@ -35,8 +24,20 @@ ActiveRecord::Schema.define(:version => 20110601124022) do
     t.datetime "updated_at"
   end
 
-  add_index "nodes", ["starts_at", "ends_at"], :name => "index_nodes_on_starts_at_and_ends_at"
-  add_index "nodes", ["type"], :name => "index_nodes_on_type"
+  add_index "entities", ["starts_at", "ends_at"], :name => "index_entities_on_starts_at_and_ends_at"
+  add_index "entities", ["type"], :name => "index_entities_on_type"
+
+  create_table "relations", :force => true do |t|
+    t.integer  "source_id"
+    t.string   "source_type", :default => "User"
+    t.integer  "target_id"
+    t.string   "target_type"
+    t.integer  "role_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "relations", ["source_id", "source_type", "target_id", "target_type", "role_id"], :name => "index_relations_on_source_and_target_and_role", :unique => true
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -61,6 +62,9 @@ ActiveRecord::Schema.define(:version => 20110601124022) do
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
+    t.integer  "failed_attempts",                       :default => 0
+    t.string   "unlock_token"
+    t.datetime "locked_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -69,5 +73,6 @@ ActiveRecord::Schema.define(:version => 20110601124022) do
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
   add_index "users", ["type"], :name => "index_users_on_type"
+  add_index "users", ["unlock_token"], :name => "index_users_on_unlock_token", :unique => true
 
 end

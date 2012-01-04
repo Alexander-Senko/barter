@@ -1,2 +1,2 @@
-class API::MessagesController < API::NodesController
+class API::MessagesController < API::EntitiesController
 end

@@ -1,21 +1,21 @@
-class Membership < ActiveRecord::Base
-	belongs_to :member, :polymorphic => true
-	belongs_to :team,   :polymorphic => true
+class Relation < ActiveRecord::Base
+	belongs_to :source, :polymorphic => true
+	belongs_to :target, :polymorphic => true
 	belongs_to :role
 
-	scope :in, lambda { |team|
+	scope :in, lambda { |target|
 		where({
-			:member_id => nil,
-		}.merge case team
+			:source_id   => nil,
+		}.merge case target
 		when :general then {
-			:team_type => nil,
-			:team_id   => nil,
+			:target_type => nil,
+			:target_id   => nil,
 		} when Class then {
-			:team_type => team.name,
-			:team_id   => nil,
+			:target_type => target.name,
+			:target_id   => nil,
 		} else {
-			:team_type => team.class.name,
-			:team_id   => team.id,
+			:target_type => target.class.name,
+			:target_id   => target.id,
 		} end).includes(:role)
 	}
 

@@ -9,20 +9,20 @@ class User < ActiveRecord::Base
 	                :remember_me,
 	                :roles
 
-	has_many :memberships, :as      => :member
-	has_many :roles,       :through => :memberships
+	has_many :relations, :as      => :source
+	has_many :roles,     :through => :relations
 
-	if Membership.table_exists? then # needed for DB migrations & schema initializing
-		for team in Membership.where(:member_id => nil).map(&:team_type).compact.uniq do
-			(lambda do |association_name, team_class| # WTF?! remove lambda
-				has_many association_name, :through => :memberships, :source => :team, :source_type => team_class.name
+	if Relation.table_exists? then # needed for DB migrations & schema initializing
+		for target in Relation.where(:source_id => nil).map(&:target_type).compact.uniq do
+			(lambda do |association_name, target_class| # WTF?! remove lambda
+				has_many association_name, :through => :relations, :source => :target, :source_type => target_class.name
 
 				define_method "#{association_name}_with_roles" do |*roles|
-					send(association_name).joins(:memberships => :role).where(
-						:memberships => { :role => { :name => roles.flatten.map(&:to_s) } }
+					send(association_name).joins(:relations => :role).where(
+						:relations => { :role => { :name => roles.flatten.map(&:to_s) } }
 					)
 				end
-			end)[team.downcase.pluralize.to_sym, const_get(team)]
+			end)[target.downcase.pluralize.to_sym, const_get(target)]
 		end
 	end
 end

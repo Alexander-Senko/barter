@@ -1,6 +1,6 @@
-class CreateNodes < ActiveRecord::Migration
+class CreateEntities < ActiveRecord::Migration
 	def change
-		create_table :nodes do |t|
+		create_table :entities do |t|
 			t.string :type
 
 			t.string :name
@@ -12,7 +12,7 @@ class CreateNodes < ActiveRecord::Migration
 			t.timestamps
 		end
 
-		add_index :nodes, :type
-		add_index :nodes, [ :starts_at, :ends_at ]
+		add_index :entities, :type
+		add_index :entities, [ :starts_at, :ends_at ]
 	end
 end

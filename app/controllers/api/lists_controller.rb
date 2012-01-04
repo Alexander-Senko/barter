@@ -1,2 +1,2 @@
-class API::ListsController < API::NodesController
+class API::ListsController < API::EntitiesController
 end

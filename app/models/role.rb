@@ -1,25 +1,25 @@
 class Role < ActiveRecord::Base
-	has_many :memberships
-	has_many :users, :through => :memberships, :source => :member, :source_type => 'User'
+	has_many :relations
+	has_many :users, :through => :relations, :source => :source, :source_type => 'User'
 
 	validates :name, :uniqueness => true
 
 	scope :named, lambda { |*names| where :name.in => names.flatten }
 
-	# TODO: make DRY with Membership.in
-	scope :in, lambda { |team|
-		joins(:memberships).where(:memberships => {
-			:member_id => nil,
-		}.merge(case team
+	# TODO: make DRY with Relation.in
+	scope :in, lambda { |target|
+		joins(:relations).where(:relations => {
+			:source_id   => nil,
+		}.merge(case target
 		when :general then {
-			:team_type => nil,
-			:team_id   => nil,
+			:target_type => nil,
+			:target_id   => nil,
 		} when Class then {
-			:team_type => team.name,
-			:team_id   => nil,
+			:target_type => target.name,
+			:target_id   => nil,
 		} else {
-			:team_type => team.class.name,
-			:team_id   => team.id,
+			:target_type => target.class.name,
+			:target_id   => target.id,
 		} end))
 	}
 end

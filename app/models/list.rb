@@ -1,4 +1,4 @@
-class List < Node
+class List < Entity
 	alias_attribute :description, :content
 
 #	def to_param

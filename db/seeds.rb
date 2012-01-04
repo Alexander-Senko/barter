@@ -10,7 +10,7 @@
 # Roles
 #
 
-for (team, member), roles in {
+for (target, source), roles in {
 	[ nil, User::Staff ] => %w[
 		admin
 		editor
@@ -31,15 +31,15 @@ for (team, member), roles in {
 } do
 	if roles.any? then
 		for role in roles do
-			Membership.create :role => Role.find_or_create_by_name(role) do |m|
-				m.send :write_attribute, :member_type, member.to_s if member
-				m.send :write_attribute, :team_type,     team.to_s if team
+			Relation.create :role => Role.find_or_create_by_name(role) do |m|
+				m.send :write_attribute, :source_type, source.to_s if source
+				m.send :write_attribute, :target_type, target.to_s if target
 			end
 		end
 	else
-		Membership.create do |m|
-			m.send :write_attribute, :member_type, member.to_s if member
-			m.send :write_attribute, :team_type,     team.to_s if team
+		Relation.create do |m|
+			m.send :write_attribute, :source_type, source.to_s if source
+			m.send :write_attribute, :target_type, target.to_s if target
 		end
 	end
 end
