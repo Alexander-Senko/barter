@@ -10,23 +10,42 @@
 # Roles
 #
 
-for (target, source), roles in {
-	[ nil, User::Staff ] => %w[
+for (source, target), roles in {
+	# Global user roles
+	User::Staff => %w[
 		admin
 		editor
 		moderator
 		accountant
 		support
 	],
-	[ nil, User::Customer ] => %w[
+	User::Customer => %w[
 	],
-	[ nil, User::Corporate ] => %w[
+	User::Corporate => %w[
 	],
-	Article => %w[
+
+	# Per-entity user roles
+	[ User, Entity ] => %w[
+		creator
+		editor
 	],
-	Message => %w[
+	[ User::Staff, Entity ] => %w[
+		admin
+		moderator
 	],
-	List => %w[
+	[ User::Customer, Item ] => %w[
+		provider
+		demander
+	],
+
+	# Entity relations
+	[ Entity, Entity ] => %w[
+	],
+	[ Article, Article ] => %w[
+		specifier
+		package
+	],
+	[ Item, Article ] => %w[
 	],
 } do
 	if roles.any? then
