@@ -1,6 +1,10 @@
+##
+# TODO: separate
+#
 class ActiveRecord::Base
 	def self.inherited child
 		ActiveSupport.run_load_hooks :model_class, child
+		super
 	end
 
 	protected
@@ -17,7 +21,7 @@ class ActiveRecord::Base
 			:class_name  => target.name,
 		}) do |model|
 			association = if target == self then
-				type == :target ? 'child' : 'parent'
+				type == :target ? 'parent' : 'child'
 			else
 				target.name.split('::').reverse.join
 			end.tableize.to_sym
@@ -34,8 +38,15 @@ class ActiveRecord::Base
 					"#{type == :target ? role.name.passivize : role.name}_#{association}"
 				end.tableize.to_sym
 
-				model.has_many association_with_role, :conditions => { through_association => { :role_id => role.id } }
+				model.has_many association_with_role, :conditions => { :relations => { :role_id => role.id } }
 			end
+		end
+
+		for association, method in {
+			:parents  => :ancestors,
+			:children => :descendants,
+		} do
+			define_recursive_methods association, method if association.in? reflections and not method_defined? method
 		end
 	end
 
@@ -48,6 +59,18 @@ class ActiveRecord::Base
 					:role_id => Role.find_all_by_name(roles.flatten.map(&:to_s)).map(&:id)
 				}
 			)
+		end
+	end
+
+	def self.define_recursive_methods association, method, tree_method = "#{method.to_s.singularize}_tree"
+		redefine_method tree_method do
+			send(association).inject([]) { |tree, node|
+				tree << node << node.send(tree_method)
+			}.reject &:blank?
+		end
+
+		redefine_method method do
+			send(tree_method).flatten
 		end
 	end
 end
