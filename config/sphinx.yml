@@ -1,0 +1,11 @@
+options: &general
+  morphology:
+    - stem_enru
+    - soundex
+    - metaphone
+  enable_star:   yes
+  min_infix_len: 2
+
+development: *general
+test:        *general
+production:  *general
