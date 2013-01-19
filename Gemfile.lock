@@ -1,3 +1,17 @@
+GIT
+  remote: https://github.com/softpro/rails_dynamic_associations.git
+  revision: 19d05516ac79d316774a7847c53276ee6dfca56b
+  specs:
+    rails_dynamic_associations (0.0.1)
+      rails (~> 3.2)
+
+GIT
+  remote: https://github.com/softpro/rails_model_load_hook.git
+  revision: cd615ed3e2f9678eb38017692663e416024d4301
+  specs:
+    rails_model_load_hook (0.0.1)
+      rails (~> 3.2)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -134,6 +148,8 @@ DEPENDENCIES
   kaminari
   mysql2
   rails (~> 3.1)
+  rails_dynamic_associations!
+  rails_model_load_hook!
   sass-rails
   sqlite3
   thinking-sphinx

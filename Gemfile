@@ -21,6 +21,8 @@ gem 'devise'
 gem 'cancan'
 
 # Models
+gem 'rails_model_load_hook',      :git => 'https://github.com/softpro/rails_model_load_hook.git'
+gem 'rails_dynamic_associations', :git => 'https://github.com/softpro/rails_dynamic_associations.git'
 gem 'thinking-sphinx'
 
 # Controllers
