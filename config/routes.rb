@@ -2,9 +2,12 @@ Barter::Application.routes.draw do
 	# The priority is based upon order of creation:
 	# first created -> highest priority.
 
-	devise_for :users
 	devise_for :staff,     :class_name => 'User::Staff'
 	devise_for :customers, :class_name => 'User::Customer'
+	devise_for :users
+
+	# NOTE: uses first devise_for
+	mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
 	resources :users, :articles, :messages, :lists do
 		resources :articles, :messages, :lists

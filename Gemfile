@@ -31,6 +31,9 @@ gem 'has_scope'
 
 gem 'kaminari' # for pagination
 
+# Admin
+gem 'rails_admin'
+
 # gem 'prototype-rails'
 
 # Use unicorn as the web server
